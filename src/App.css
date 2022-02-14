@@ -1,0 +1,109 @@
+@import url('https://fonts.googleapis.com/css2?family=Baloo+Tamma+2:wght@600&display=swap');
+:root {
+  --primary-color: #3e2d86;
+  --contrast-color: #858997;
+  --padding-content: 5%;
+  --header-height: 60px;
+}
+
+* {
+  -webkit-box-sizing: border-box !important;
+  -moz-box-sizing: border-box !important;
+  box-sizing: border-box !important;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Baloo Tamma 2', cursive;
+}
+
+.global-wrapper {
+  background-color: var(--primary-color);
+  position: relative;
+}
+
+.element-wrapper {
+  min-width: 320px;
+  max-width: 1200px;
+  margin: 0 auto;
+  position: relative;
+}
+
+a {
+  text-decoration: none;
+  color: rgb(0, 0, 0);
+}
+
+.hide {
+  display: none !important;
+}
+
+.section-layout {
+  padding: 80px var(--padding-content);
+  width: 100%;
+}
+
+.section-title {
+  width: 100%;
+  margin-bottom: 60px;
+  text-align: center;
+  font-weight: 900;
+  font-size: 45px;
+  color: #dadada;
+}
+
+ul {
+  list-style: none;
+}
+
+.connecting-ui {
+  width: 100vw;
+  height: 100vh;
+  background-color: orange;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.connecting-ui span {
+  font-size: 2rem;
+  color: white;
+}
+
+.loading-outer {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  border: 5px solid rgba(255, 255, 255, .8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-left-color: transparent;
+  border-right-color: transparent;
+  animation: rotate-outer 1.5s linear infinite forwards;
+  position: relative;
+}
+
+.loading-outer .loading-inner {
+  width: 70px;
+  height: 70px;
+  border-radius: inherit;
+  border: 5px solid rgba(255, 255, 255, .8);
+  border-top-color: transparent;
+  border-bottom-color: transparent;
+  animation: rotate-inner 1.5s linear infinite forwards;
+  position: absolute;
+}
+@keyframes rotate-outer {
+  50% {
+    transform: rotate(200deg);
+ }
+}
+@keyframes rotate-inner {
+  50% {
+    transform: rotate(-400deg);
+ }
+}

@@ -1,0 +1,120 @@
+.airdrop-wrapper {
+    height: 100vh;
+    background: radial-gradient(50% 50% at 50% 50%, #3d69ec 0%, #2754e9 100%);
+    background-size: cover;
+    overflow: hidden;
+}
+
+.airdrop-frame {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 25px;
+    overflow: hidden;
+}
+
+.airdrop-content {
+    background: rgba(43, 43, 43, 0.2);
+    width: 100%;
+    height: 600px;
+    padding: 40px 80px;
+}
+
+.wallet-area {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.wallet-header {
+    text-align: center;
+}
+
+.wallet-message {
+    font-size: 1.3rem;
+    color: rgb(196, 196, 196);
+    margin: 20px;
+}
+
+.token-amount {
+    color: white;
+    font-size: 1.3rem;
+    margin: 20px;
+}
+
+.wallet-info {
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: 16px;
+    display: flex;
+    font-weight: normal;
+    color: white;
+    border-radius: 15px;
+    align-items: center;
+    background-color: var(--contrast-color);
+    padding: 3px;
+    cursor: pointer;
+}
+
+.account-balance {
+    background-color: var(--primary-color);
+    padding: 3px 15px;
+    border-radius: 15px;
+}
+
+.account-address {
+    font-size: 16px;
+    padding: 3px 20px 3px 15px;
+}
+
+.btn-wallet {
+    color: white;
+    font-weight: normal;
+    font-size: 1.1rem;
+    padding: 15px 20px;
+    background-color: rgb(31, 124, 231);
+    border-radius: 20px;
+    cursor: pointer;
+    user-select: none;
+}
+
+.btn-disable {
+    background-color: rgb(145, 145, 145);
+}
+
+.note {
+    margin-left: 30px;
+    font-size: 1.3rem;
+    line-height: 1.8rem;
+    color: #ffffff;
+    font-family: "SVN-Avo";
+    font-style: italic;
+    position: relative;
+}
+
+.countdown-wrapper {
+    margin: 40px 0;
+    display: flex;
+    justify-content: center;
+    color: white;
+}
+
+.countdown {
+    display: flex;
+    justify-content: space-around;
+    text-align: center;
+    width: 500px;
+    text-align: center;
+}
+
+.countdown h1 {
+    font-size: 1.8rem;
+    margin: 0px;
+}
+
+.day,
+.hour,
+.minutes,
+.seconds {
+    font-size: 1.2rem;
+}
