@@ -8,6 +8,16 @@ const claimApi = {
     getAirdropEndTime: () => {
         const url = "/airdrop/claim/time";
         return axiosClient.get(url);
+    },
+
+    getClaimAllInfo: params => {
+        const url = "/airdrop/claim/all";
+        return axiosClient.get(url, { params });
+    },
+
+    updateClaimAllInfo: params => {
+        const url = "/airdrop/claim/all";
+        return axiosClient.put(url, { params });
     }
 }
 

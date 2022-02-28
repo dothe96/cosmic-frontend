@@ -11,6 +11,8 @@ import { getLeftDaytime } from '../../utils/JsUtils';
 import claimApi from '../../api/claimApi';
 import userApi from '../../api/userApi';
 import Countdown from './Countdown';
+import moment from 'moment';
+import CosmicAirdrop from '../../web3/CosmicAirdrop/CosmicAirdrop.json';
 
 function Airdrop() {
 
@@ -22,6 +24,10 @@ function Airdrop() {
     const [claimState, setClaimState] = useState(1);
     const [totalToken, setTotalToken] = useState(0);
 
+    const [isAfterEvent, setAfterEvent] = useState(false);
+
+    const [forceEnd, setForceEnd] = useState(false);
+
     useEffect(() => {
       checkConnected().then(rs => {
         if (rs) {
@@ -32,8 +38,15 @@ function Airdrop() {
           });
         }
       });
+      const fetchEventTime = async () => {
+          const endTimeData = await claimApi.getAirdropEndTime();
+          if (moment.utc().isAfter(moment(endTimeData.airDropEndTime)) || forceEnd) {
+            setAfterEvent(true);
+          }
+      };
+      fetchEventTime();
       // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [forceEnd]);
 
     useEffect(() => {
       const fetchClaimState = async () => {
@@ -52,7 +65,7 @@ function Airdrop() {
         fetchClaimState();
       }
     }, [address]);
-
+    
     const connectWallet = async () => {
       const [connected, provider] = await WalletConnector();
       registerEvents(onAccountChange, onDisconnect, onChainChange);
@@ -130,6 +143,36 @@ function Airdrop() {
       }
     }
 
+    const claimAll = async () => {
+      try {
+        const data = await claimApi.getClaimAllInfo({ user: address });
+        if (data.result.success) {
+          if (window.ethereum) {
+            const web3 = new Web3(window.ethereum);
+            const recipient = data.result.user;
+            const amount = data.result.amount;
+            const signature = data.result.signature;
+            const airdrop = new web3.eth.Contract(
+              CosmicAirdrop.abi,
+              "0x3872a243E13CEeFbA89783aF093176BEdAc4cb5C"
+            );
+            const receipt = await airdrop.methods.claimTokens(
+              recipient,
+              web3.utils.toWei(amount.toString()),
+              signature
+            ).send({ from: address });
+            console.log(`${recipient} claimed ${amount} COS in tx ${receipt.transactionHash}`);
+            toast.success(`${amount} COS have been sent to your wallet`);
+          }
+        } else {
+          throw new Error("Cannot get data from server");
+        }
+      } catch (err) {
+        console.log(err);
+        toast.error("Oop! something went wrong");
+      }
+    }
+
     const renderWalletArea = () => {
       if (chainId !== -1 && chainId !== parseInt(process.env.REACT_APP_CHAIN_ID)) {
         return (
@@ -139,6 +182,18 @@ function Airdrop() {
         );
       }
       if (connnectState === "connected" || connnectState === "updated") {
+        if (isAfterEvent) {
+          return (
+            <div className="wallet-header">
+              <WalletArea address={address} balance={balance} />
+              <div className="token-amount">
+                <span>
+                  Congratulation! you have accumulated {totalToken} COS. Click "Claim All" button to get all your tokens
+                </span>
+              </div>
+            </div>
+          );
+        }
         return (
           <div className="wallet-header">
             <WalletArea address={address} balance={balance} />
@@ -159,6 +214,11 @@ function Airdrop() {
           <div className="btn-wallet" onClick={connectWallet}>Connect wallet</div>
         );
       }
+      if (isAfterEvent) {
+        return (
+          <div className="btn-wallet btn-claim-all" onClick={claimAll}>Claim All</div>
+        );
+      }
       if (claimState === 1) { // 1: unclaimed
         return (
           <div className="btn-wallet " onClick={claimToken}>Claim Token</div>
@@ -168,6 +228,19 @@ function Airdrop() {
           <div className="btn-wallet btn-disable" onClick={claimToken}>Claim Token</div>
         )
       }
+    };
+
+    const renderCountdown = () => {
+      if (isAfterEvent) {
+        return;
+      }
+      return (
+        < Countdown/>
+      );
+    };
+
+    const forceEndHandler = () => {
+      setForceEnd(true);
     };
 
     return ( 
@@ -180,12 +253,12 @@ function Airdrop() {
                             {renderWalletArea()}
                             {renderButton()}
                         </div>
-                        <Countdown />
+                        {renderCountdown()}
                         <div className="note">
                           <p>Click "Get Reward" to receive random from 1 to 100</p>
                           <p>Each account can claim once per day (UTC time)</p>
                           <p>Tokens will be accumulated daily during the promotion period</p>
-                          <p>Come back after the airdrop is over to get all tokens</p>
+                          <p>Come back after the airdrop is over to get all tokens <button className="btn-force-end" onClick={forceEndHandler}>Force End</button></p>
                         </div>
                     </div>
                 </div>

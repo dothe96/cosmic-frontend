@@ -11,7 +11,6 @@ function App() {
     const checkServerConnection = async () => {
       try {
         const isOk = await serverApi.checkServer();
-        console.log(isOk);
         if (isOk.status === 200) {
           setConnected(true);
           clearInterval(interval);

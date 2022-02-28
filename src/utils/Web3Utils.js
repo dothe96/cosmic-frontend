@@ -10,6 +10,12 @@ export const getChainName = (id) => {
           return "Goerli";
         case 42:
           return "Kovan";
+        case 56:
+          return "BSC";
+        case 97:
+          return "BSC Testnet";
+        case 31337:
+          return "Hardhat Lolcalhost";
         default:
           return "Network";
     }
