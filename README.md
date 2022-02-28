@@ -1,4 +1,4 @@
-# COSMIC BACKEND
+# COSMIC FRONTEND
  
 ## SETUP
 Please add .evn following:
