@@ -1,7 +1,7 @@
 # COSMIC FRONTEND
  
 ## SETUP
-Please add .evn following:
+Please add .env following:
 ```sh
 REACT_APP_API_BASE_URL=https://cosmic-backend-endpoint.herokuapp.com/api
 REACT_APP_CHAIN_ID=97
